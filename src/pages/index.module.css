@@ -35,9 +35,9 @@ html, body, :global(#___gatsby) {
 
 :global(.column) {
     padding:16px;
-    width:33%;
-    max-width: 33%;
-    flex: 1 1 33%;
+    width:100%;
+    max-width: 100%;
+    flex: 1 1 100%;
 }
 
 .emphasis {
@@ -52,12 +52,22 @@ html, body, :global(#___gatsby) {
 
 
 @media (min-width: 40em) {
-  .introTitle {
+  :global(.column) {
+    padding:16px;
+    width: 50%;
+    max-width: 50%;
+    flex: 1 1 50%;
   }
 }
 
 @media (min-width: 50em) {
   :root {
     font-size: 1.125em;
+  }
+  :global(.column) {
+    padding:16px;
+    width: 33%;
+    max-width: 33%;
+    flex: 1 1 33%;
   }
 }

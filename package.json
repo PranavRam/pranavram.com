@@ -8,7 +8,9 @@
     "gatsby-link": "^1.6.28",
     "gatsby-plugin-react-helmet": "^2.0.1",
     "gatsby-plugin-typography": "^1.7.10",
+    "gatsby-remark-prismjs": "^1.2.9",
     "gatsby-source-filesystem": "^1.5.8",
+    "gatsby-transformer-remark": "^1.7.21",
     "react-helmet": "^5.2.0"
   },
   "keywords": [
