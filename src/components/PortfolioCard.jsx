@@ -4,7 +4,7 @@ import styles from './portfolio-card.module.css';
 
 const PortfolioCard = props => {
   const { name, description, coverImage, video, link } = props.data;
-  console.log(props.data);
+
   const img = require(`${coverImage}`);
   let media = <img src={img} width="100%" alt />;
   if (video) {

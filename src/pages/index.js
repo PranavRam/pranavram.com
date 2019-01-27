@@ -1,7 +1,10 @@
 import React from 'react';
 import Link from 'gatsby-link';
 import styles from './index.module.css';
-import gro2 from '../../public/static/images/gro-2.jpg';
+import gro1 from '../assets/images/gro-1.jpg';
+import gro2 from '../assets/images/gro-2.jpg';
+import gro3 from '../assets/images/gro-3.jpg';
+import gro4 from '../assets/images/gro-4.jpg';
 import Work from '../components/Work';
 
 const IndexPage = ({ children, data }) => {
@@ -9,7 +12,7 @@ const IndexPage = ({ children, data }) => {
     .filter(d => d.node.fields && d.node.fields.work)
     .map(d => d.node.fields.work);
   workData.sort((a, b) => a.order - b.order);
-  console.log(workData);
+
   return (
     <div
       style={{
@@ -38,8 +41,8 @@ const IndexPage = ({ children, data }) => {
             </p>
           </div>
           <div className="column">
-            <a href="/static/images/gro-3.jpg">
-              <img src="/static/images/gro-3.jpg" />
+            <a href={gro3}>
+              <img src={gro3} />
             </a>
             <p>
               Investigations:<br /> Issues Raised for Various Teams at
@@ -47,8 +50,8 @@ const IndexPage = ({ children, data }) => {
             </p>
           </div>
           <div className="column">
-            <a href="/static/images/gro-4.jpg">
-              <img src="/static/images/gro-4.jpg" />
+            <a href={gro4}>
+              <img src={gro4} />
             </a>
             <p>
               Case Completion:<br /> Completion State of a Release <b>in</b>{' '}
@@ -56,8 +59,8 @@ const IndexPage = ({ children, data }) => {
             </p>
           </div>
           <div className="column">
-            <a href="/static/images/gro-1.jpg">
-              <img src="/static/images/gro-1.jpg" />
+            <a href={gro1}>
+              <img src={gro1} />
             </a>
             <p>
               Release Timeline:<br /> Completion State of a Release{' '}
