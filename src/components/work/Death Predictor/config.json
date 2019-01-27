@@ -1,7 +1,7 @@
 {
-    "order": 15,
-    "name": "Death Predictor",
-    "description": "CSE 6242",
-    "coverImage": "./work/Death Predictor/cover.png",
-    "video": "./work/Death Predictor/video.mp4"
+  "order": 15,
+  "name": "Death Predictor",
+  "description": "CSE 6242",
+  "coverImage": "./work/Death Predictor/cover.png",
+  "video": "./work/Death Predictor/video.mp4"
 }

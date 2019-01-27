@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'gatsby-link';
 import styles from './index.module.css';
-
+import gro2 from '../../public/static/images/gro-2.jpg';
 import Work from '../components/Work';
 
 const IndexPage = ({ children, data }) => {
@@ -9,7 +9,7 @@ const IndexPage = ({ children, data }) => {
     .filter(d => d.node.fields && d.node.fields.work)
     .map(d => d.node.fields.work);
   workData.sort((a, b) => a.order - b.order);
-
+  console.log(workData);
   return (
     <div
       style={{
@@ -30,8 +30,8 @@ const IndexPage = ({ children, data }) => {
         </h4>
         <div className="row">
           <div className="column">
-            <a href="/static/images/gro-2.jpg">
-              <img src="/static/images/gro-2.jpg" />
+            <a href={gro2}>
+              <img src={gro2} />
             </a>
             <p>
               Deployments:<br /> Dashboards for Salesforce Releases
@@ -69,20 +69,27 @@ const IndexPage = ({ children, data }) => {
       <hr style={{ margin: '16px' }} />
       <div style={{ margin: '16px' }}>
         <h2 style={{ paddingBottom: 16 }}>Most Recent Blog Posts</h2>
-        {data.allMarkdownRemark.edges.map(({ node }) => (
-          <div key={node.id}>
-            <Link
-              to={node.fields.slug}
-              style={{ textDecoration: `none`, color: `inherit` }}
-            >
-              <h3>
-                {node.frontmatter.title}{' '}
-                <span style={{ color: '#BBB' }}>— {node.frontmatter.date}</span>
-              </h3>
-              <p>{node.excerpt}</p>
-            </Link>
-          </div>
-        ))}
+        {data.allMarkdownRemark.edges
+          // .filter(({ node }) => {
+          //   console.log(node);
+          //   return true;
+          // })
+          .map(({ node }) => (
+            <div key={node.id}>
+              <Link
+                to={node.fields.slug}
+                style={{ textDecoration: `none`, color: `inherit` }}
+              >
+                <h3>
+                  {node.frontmatter.title}{' '}
+                  <span style={{ color: '#BBB' }}>
+                    — {node.frontmatter.date}
+                  </span>
+                </h3>
+                <p>{node.excerpt}</p>
+              </Link>
+            </div>
+          ))}
       </div>
     </div>
   );
@@ -102,6 +109,7 @@ export const query = graphql`
               description
               coverImage
               video
+              link
             }
           }
         }
