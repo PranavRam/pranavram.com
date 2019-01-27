@@ -20,6 +20,7 @@ const PortfolioCard = (props) => {
             <figure className="ItemCard__thumb">
               {media}
               <h5>{name}</h5>
+              <span>{description}</span>
             </figure>
           </div>
     )
