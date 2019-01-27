@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styles from './portfolio-card.module.css';
+import { OutboundLink } from 'gatsby-plugin-google-analytics';
 
 const PortfolioCard = props => {
   const { name, description, coverImage, video, link } = props.data;
@@ -20,9 +21,9 @@ const PortfolioCard = props => {
     <div className={styles.itemCard}>
       <figure className="ItemCard__thumb">
         {link ? (
-          <a target="_blank" href={link}>
+          <OutboundLink target="_blank" href={link}>
             {media}
-          </a>
+          </OutboundLink>
         ) : (
           media
         )}
