@@ -52,8 +52,8 @@ module.exports = {
         // variationId: 'YOUR_GOOGLE_OPTIMIZE_VARIATION_ID',
         // // Any additional create only fields (optional)
         sampleRate: 5,
-        siteSpeedSampleRate: 10,
-        cookieDomain: 'pranavram.com'
+        siteSpeedSampleRate: 10
+        // cookieDomain: 'pranavram.com'
       }
     }
   ],
