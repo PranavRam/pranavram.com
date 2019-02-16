@@ -84,7 +84,7 @@ const IndexPage = ({ children, data }) => {
                 style={{ textDecoration: `none`, color: `inherit` }}
               >
                 <h3>
-                  {node.frontmatter.title}{' '}
+                  {node.frontmatter.title}
                   <span style={{ color: '#BBB' }}>
                     — {node.frontmatter.date}
                   </span>

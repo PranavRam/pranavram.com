@@ -2,6 +2,10 @@
     max-width: 960px;
 }
 
+.gatsby-highlight pre[class*="language-"].line-numbers {
+    padding-left: 2.8em;
+  }
+
 :global(.gatsby-highlight-code-line) {
     background-color: #feb;
     display: block;

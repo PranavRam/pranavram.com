@@ -7,7 +7,8 @@ import styles from '../pages/index.module.css';
 
 import GoMail from 'react-icons/lib/go/mail';
 import GoMarkGithub from 'react-icons/lib/go/mark-github';
-
+require('prismjs/themes/prism-solarizedlight.css')
+require("prismjs/plugins/line-numbers/prism-line-numbers.css")
 const TemplateWrapper = ({ children }) => (
   <div style={{ backgroundColor: '#f2f2f2', height: '100%' }}>
     <Helmet

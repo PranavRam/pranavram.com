@@ -1,17 +1,32 @@
 import React from "react"
-require('prismjs/themes/prism-solarizedlight.css')
+import {Helmet} from "react-helmet";
 
 import styles from './styles.css';
-export default ({ data }) => {
-  const post = data.markdownRemark
-  return (
-    <div className={styles.container}>
-      <h1>
-        {post.frontmatter.title}
-      </h1>
-      <div dangerouslySetInnerHTML={{ __html: post.html }} />
-    </div>
-  )
+export default class Blog extends React.Component {
+  // componentDidMount () {
+  //   const script = document.createElement("script");
+
+  //   script.src = "https://snack.expo.io/embed.js";
+  //   script.async = true;
+
+  //   document.body.appendChild(script);
+  // }
+
+  render (){
+    const { data } = this.props
+    const post = data.markdownRemark
+    return (
+      <div className={styles.container}>
+        <h1>
+          {post.frontmatter.title}
+        </h1>
+        <div style={{marginBottom: 80}} dangerouslySetInnerHTML={{ __html: post.html }} />
+        <Helmet>        
+          <script async src="https://snack.expo.io/embed.js"></script>
+        </Helmet>
+      </div>
+    )
+}
 }
 
 export const query = graphql`
