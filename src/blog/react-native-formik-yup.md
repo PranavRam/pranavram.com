@@ -6,7 +6,7 @@ date: "2019-02-17"
 This post will get you up to speed using Formik and Yup to make form management easy. I'm using React Native in this post but all this should apply to React as well.
 
 <div style="margin-bottom: 16px;">
-<div data-snack-id="@pranavram/formik-+-yup" data-snack-platform="ios" data-snack-preview="true" data-snack-theme="light" style="overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:4px;height:505px;width:100%"></div>
+<div data-snack-id="@pranavram/formik---yup" data-snack-platform="ios" data-snack-preview="true" data-snack-theme="light" style="overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:4px;height:505px;width:100%"></div>
 </div>
 
 ### Goals
