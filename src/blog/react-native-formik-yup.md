@@ -524,17 +524,20 @@ To do that, we simply set that passwordConfirm is required and is the same as th
 
 That's all there is to it. We've already hooked up this function to Formik's validate prop so we're good to go. We've also added the necessary error messages below each of the inputs so that we know what went wrong.
 
+<div class="row">
+  <div class="column-50">
+    <p class="caption">All fields are incorrect</p>
+    <img src="./react-native-formik-yup/2.png" />
+  </div>
+  <div class="column-50">
+    <p class="caption">Passwords aren't the same</p>
+    <img src="./react-native-formik-yup/3.png" />
+  </div>
+</div>
 
-
-All fields are incorrect
-
-![React Native Formik Yup All Invalid](./react-native-formik-yup/2.png)
-
-
-
-Passwords aren't the same![React Native Formik Yup Passwords Invalid](./react-native-formik-yup/3.png)
-
-
+<!-- |All fields are incorrect            |Passwords aren't the same           |
+|:----------------------------------:|:----------------------------------:|
+|![](./react-native-formik-yup/2.png)|![](./react-native-formik-yup/3.png)| -->
 
 We'll wrap this up by adding a flash message to let the user know the form was successfully submitted
 
@@ -653,6 +656,7 @@ const styles = StyleSheet.create({
   }
 });
 ```
+<div style="margin-top: 32px;"></div>
 
 ![React Native Formik Yup All Valid](./react-native-formik-yup/4.png)
 

@@ -42,3 +42,23 @@
     float: left; /* 1 */
     min-width: 100%; /* 2 */
   }
+
+  .row {
+    display: flex;
+  }
+  
+  .column-50 {
+    flex: 50%;
+    padding: 8px;
+  }
+
+  .caption {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 600px) {
+    .column-50 {
+      width: 100%;
+    }
+  }

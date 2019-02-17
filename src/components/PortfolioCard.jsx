@@ -9,7 +9,9 @@ const PortfolioCard = props => {
   const img = require(`${coverImage}`);
   let media = <img src={img} width="100%" alt />;
   if (video) {
-    let videoSrc = require(`${video}`);
+    // let videoSrc = require(`${video}`);
+    let videoSrc = video;
+
     media = (
       <video controls poster={img} style={{ maxWidth: '100%' }}>
         <source src={videoSrc} type="video/mp4" />
