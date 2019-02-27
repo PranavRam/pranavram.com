@@ -34,11 +34,11 @@ expo init
 ```
 
 ```
-npm i -S formik yup react-native-flash-message
+npm i -S formik yup react-native-flash-message react-native-keyboard-aware-scroll-view
 
 OR
 
-yarn add formik yup react-native-flash-message
+yarn add formik yup react-native-flash-message react-native-keyboard-aware-scroll-view
 ```
 
 
@@ -656,8 +656,131 @@ const styles = StyleSheet.create({
   }
 });
 ```
-<div style="margin-top: 32px;"></div>
 
 ![React Native Formik Yup All Valid](./react-native-formik-yup/4.png)
 
-We'll make this form view more robust in the next post with a keyboard aware view and make it play nicely with smaller screens.
+Finally, we'll add the KeyboardAwareScrollView to our form to ensure that the keyboard doesn't cover the inputs when visible.
+
+**src/screens/UserRegistrationScreen/index.js**
+```jsx{numberLines: true}
+import React from 'react';
+import { SafeAreaView, View, StyleSheet, Image, Text } from 'react-native';
+import { Formik } from 'formik';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+{/* highlight-next-line */}
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import validate from '../../utils/FormValidations/registrationValidation';
+
+const logo = require('../../../assets/logo/logo.png');
+
+export default class UserRegistration extends React.Component {
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        {/* highlight-next-line */}
+        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+          <Image source={logo} resizeMode="contain" style={styles.logo} />
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+              passwordConfirm: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              console.log(values);
+              showMessage({
+                message: 'Success!',
+                type: 'success'
+              });
+              resetForm({});
+            }}
+            validate={validate}
+          >
+            {({ handleSubmit, handleChange, errors, values, touched }) => (
+              <View style={styles.formWrapper}>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="EMAIL"
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                  />
+                  {errors.email && touched.email && (
+                    <Text style={styles.errorInput}>
+                      {errors.email.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="PASSWORD"
+                    password
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && (
+                    <Text style={styles.errorInput}>
+                      {errors.password.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="CONFIRM PASSWORD"
+                    password
+                    onChangeText={handleChange('passwordConfirm')}
+                    value={values.passwordConfirm}
+                  />
+                  {errors.passwordConfirm && touched.passwordConfirm && (
+                    <Text style={styles.errorInput}>
+                      {errors.passwordConfirm.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <Button onClick={handleSubmit} text="Register" />
+              </View>
+            )}
+          </Formik>
+          <FlashMessage position="top" />
+        {/* highlight-next-line */}
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%'
+  },
+  logo: {
+    width: 200
+  },
+  formWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
+  },
+  inputWrapper: {
+    marginBottom: 48,
+    width: 180
+  },
+  errorInput: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 4
+  }
+});
+```
+![React Native Formik Yup Keyboard Aware](./react-native-formik-yup/5.png)
+
+We'll make this form view more robust in the next post where we'll enable scrolling when the form exceeds the screen height
+
+<div style="height: 32px;"></div>
