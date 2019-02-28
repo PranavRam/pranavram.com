@@ -15,13 +15,15 @@ export default class Blog extends React.Component {
   render (){
     const { data } = this.props
     const post = data.markdownRemark
+    console.log(post)
     return (
       <div className={styles.container}>
         <h1>
           {post.frontmatter.title}
         </h1>
         <div style={{marginBottom: 80}} dangerouslySetInnerHTML={{ __html: post.html }} />
-        <Helmet>        
+        <Helmet>     
+          <title>{`Pranav Ram - ${post.frontmatter.title}`}</title>   
           <script async src="https://snack.expo.io/embed.js"></script>
         </Helmet>
       </div>
