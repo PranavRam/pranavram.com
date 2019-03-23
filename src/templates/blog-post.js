@@ -15,7 +15,6 @@ export default class Blog extends React.Component {
   render (){
     const { data } = this.props
     const post = data.markdownRemark
-    console.log(post)
     return (
       <div className={styles.container}>
         <h1>
