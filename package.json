@@ -6,6 +6,7 @@
   "dependencies": {
     "gatsby": "^1.9.119",
     "gatsby-link": "^1.6.28",
+    "gatsby-plugin-favicon": "2.1.1",
     "gatsby-plugin-google-analytics": "^2.0.14",
     "gatsby-plugin-react-helmet": "^2.0.1",
     "gatsby-plugin-sharp": "^2.0.20",
