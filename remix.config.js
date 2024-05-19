@@ -29,7 +29,7 @@ const options = {
 };
 
 module.exports = {
-  serverBuildTarget: "vercel",
+  serverBuildTarget: "netlify",
   // When running locally in development mode, we use the built in remix
   // server. This does not understand the vercel lambda module format,
   // so we default back to the standard build output.

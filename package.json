@@ -5,6 +5,7 @@
   "scripts": {
     "build": "yarn run build:css && remix build",
     "build:css": "tailwindcss -o ./app/tailwind.css",
+    "postinstall": "remix setup node",
     "dev": "concurrently \"yarn dev:css\" \"remix dev\"",
     "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
     "e2e": "playwright test",
@@ -19,9 +20,10 @@
   },
   "dependencies": {
     "@balavishnuvj/remix-seo": "^1.0.2",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.4",
     "@mui/material": "^5.10.4",
+    "@remix-run/netlify": "^1.19.3",
     "@remix-run/node": "^1.7.0",
     "@remix-run/react": "^1.7.0",
     "@remix-run/vercel": "^1.7.0",
