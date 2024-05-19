@@ -37,7 +37,7 @@ module.exports = {
   server: process.env.NODE_ENV === "development" ? undefined : "./server.js",
   ignoredRouteFiles: ["**/.*"],
   // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
+  assetsBuildDirectory: "netlify/functions/build",
   // serverBuildPath: "api/index.js",
   // publicPath: "/build/",
   mdx: async (filename) => {
