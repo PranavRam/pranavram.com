@@ -1,7 +1,4 @@
 const { createRequestHandler } = require("@remix-run/netlify");
+import * as build from "@remix-run/dev/server-build";
 
-exports.handler = createRequestHandler({
-  getLoadContext() {
-    // Whatever you return here will be passed as `context` to your loaders.
-  },
-});
+export default createRequestHandler({ build, mode: process.env.NODE_ENV });
