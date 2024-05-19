@@ -2,6 +2,7 @@
 
 const rehypePrettyCode = require('rehype-pretty-code');
 
+/** @type {import('rehype-pretty-code').Options} */
 const options = {
   // Use one of Shiki's packaged themes
   theme: 'solarized-dark',
