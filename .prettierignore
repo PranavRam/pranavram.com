@@ -11,8 +11,3 @@ node_modules
 /api/index.js.map
 /api/_assets
 /app/tailwind.css
-
-.DS_Store
-/test-results/
-/playwright-report/
-/playwright/.cache/

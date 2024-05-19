@@ -1,0 +1,749 @@
+---
+title: "React Native: Responsive ScrollViews"
+summary: "Learn how to create a responsive scrollview in React Native to handle content larger than the screen, ensuring smooth user experience across different device sizes."
+date: "2019-03-03"
+tags: ["javascript", "react-native"]
+image: "/images/js.png"
+---
+
+This post is a follow up to **[Forms in React Native with Formik and Yup](https://www.pranavram.com/blog/react-native-formik-yup/)** where we'll make a responsive scrollview.
+
+<div style={{marginBottom: 16}}>
+  <div data-snack-id="@pranavram/react-native-responsive-scrollview" 
+    data-snack-platform="ios" 
+    data-snack-preview="true" 
+    data-snack-theme="light" 
+    style={{width: "100%", height: 800}} />
+</div>
+
+### Goals
+
+- Create a responsive scrollview in React Native to handle content larger than the screen
+  - Use **onContentSizeChange**, **scrollEnabled** and **onScroll** properties of the **ScrollView** to adjust the screen size
+  - Add an indicator to let the user know that there is more content to scroll down to
+
+
+
+#### Why do we want to do this?
+
+Let's take a look at the problem we're trying to solve:
+
+When our form content takes up less space than the height of the screen (minus the statusbar), everything looks fine:
+
+import UIMock1Img from "../../assets/blog_assets/react-native-responsive-scrollview/1-1.png"
+import UIMock2Img from "../../assets/blog_assets/react-native-responsive-scrollview/1-2.png"
+
+<div className="flex flex-row space-x-2">
+  <div className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone X</p>
+    <img src={UIMock1Img} />
+  </div>
+  <div className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone 5s</p>
+    <img src={UIMock2Img} />
+  </div>
+</div>
+
+
+
+Now let's add another field to the form, **Name**. This is the result
+
+import UIMock21Img from "../../assets/blog_assets/react-native-responsive-scrollview/2-1.png"
+import UIMock22Img from "../../assets/blog_assets/react-native-responsive-scrollview/2-2.png"
+
+<div className="flex flex-row space-x-2">
+  <div className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone X</p>
+    <img src={UIMock21Img} />
+  </div>
+  <div className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone 5s</p>
+    <img src={UIMock22Img} />
+  </div>
+</div>
+
+See the problem with the iPhone 5S display? The button is cut off. In this case, we want to let the user scroll the view while for the iPhone X, things will continue to be the same.
+
+#### Prerequisites
+
+Make sure you've completed the steps in **[Forms in React Native with Formik and Yup](https://www.pranavram.com/blog/react-native-formik-yup/)**. We'll be picking up things from there
+
+#### Walkthrough
+
+This is what our **UserRegistrationScreen** looks like
+
+```jsx title="src/screens/UserRegistrationScreen/index.js"
+import React from 'react';
+import { SafeAreaView, View, StyleSheet, Image, Text } from 'react-native';
+import { Formik } from 'formik';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import validate from '../../utils/FormValidations/registrationValidation';
+
+const logo = require('../../../assets/logo/logo.png');
+
+export default class UserRegistration extends React.Component {
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+          <Image source={logo} resizeMode="contain" style={styles.logo} />
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+              passwordConfirm: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              console.log(values);
+              showMessage({
+                message: 'Success!',
+                type: 'success'
+              });
+              resetForm({});
+            }}
+            validate={validate}
+          >
+            {({ handleSubmit, handleChange, errors, values, touched }) => (
+              <View style={styles.formWrapper}>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="EMAIL"
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                  />
+                  {errors.email && touched.email && (
+                    <Text style={styles.errorInput}>
+                      {errors.email.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="PASSWORD"
+                    password
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && (
+                    <Text style={styles.errorInput}>
+                      {errors.password.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="CONFIRM PASSWORD"
+                    password
+                    onChangeText={handleChange('passwordConfirm')}
+                    value={values.passwordConfirm}
+                  />
+                  {errors.passwordConfirm && touched.passwordConfirm && (
+                    <Text style={styles.errorInput}>
+                      {errors.passwordConfirm.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <Button onClick={handleSubmit} text="Register" />
+              </View>
+            )}
+          </Formik>
+          <FlashMessage position="top" />
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%'
+  },
+  logo: {
+    width: 200
+  },
+  formWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
+  },
+  inputWrapper: {
+    marginBottom: 48,
+    width: 180
+  },
+  errorInput: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 4
+  }
+});
+```
+
+With just a few changes, we can get the scroll working
+
+
+```jsx title="src/screens/UserRegistrationScreen/index.js"
+import React from 'react';
+import { SafeAreaView, View, StyleSheet, Image, Text } from 'react-native';
+import { Formik } from 'formik';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import validate from '../../utils/FormValidations/registrationValidation';
+
+const logo = require('../../../assets/logo/logo.png');
+
+export default class UserRegistration extends React.Component {  
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        <KeyboardAwareScrollView
+          style={styles.scrollViewContainer}
+          contentContainerStyle={{
+            flexGrow: 1,
+            alignItems: 'center'
+          }}
+         >
+          <Image source={logo} resizeMode="contain" style={styles.logo} />
+          <Formik
+            initialValues={{
+              name: '',
+              email: '',
+              password: '',
+              passwordConfirm: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              console.log(values);
+              showMessage({
+                message: 'Success!',
+                type: 'success'
+              });
+              resetForm({});
+            }}
+            validate={validate}
+          >
+            {({ handleSubmit, handleChange, errors, values, touched }) => (
+              <View style={styles.formWrapper}>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="NAME"
+                    onChangeText={handleChange('name')}
+                    value={values.email}
+                  />
+                  {errors.name && touched.name && (
+                    <Text style={styles.errorInput}>
+                      {errors.name.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="EMAIL"
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                  />
+                  {errors.email && touched.email && (
+                    <Text style={styles.errorInput}>
+                      {errors.email.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="PASSWORD"
+                    password
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && (
+                    <Text style={styles.errorInput}>
+                      {errors.password.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="CONFIRM PASSWORD"
+                    password
+                    onChangeText={handleChange('passwordConfirm')}
+                    value={values.passwordConfirm}
+                  />
+                  {errors.passwordConfirm && touched.passwordConfirm && (
+                    <Text style={styles.errorInput}>
+                      {errors.passwordConfirm.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <Button onClick={handleSubmit} text="Register" />
+              </View>
+            )}
+          </Formik>
+          <FlashMessage position="top" />
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%'
+  },
+  scrollViewContainer: { flex: 1, width: '100%' },
+  logo: {
+    width: 200
+  },
+  formWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
+  },
+  inputWrapper: {
+    marginBottom: 48,
+    width: 180
+  },
+  errorInput: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 4
+  }
+});
+```
+
+Great, the scroll works for the iPhone 5S but it also is enabled for the iPhone X even though we're well within the screen height.
+
+<div className="flex flex-row space-x-2">
+  <div style={{display: "flex", flexDirection: "column"}} className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone X</p>
+    <img src="https://media.giphy.com/media/x48p0FKT6s4mzM5yEt/giphy.gif" />
+  </div>
+  <div style={{display: "flex", flexDirection: "column"}} className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone 5s</p>
+    <img src="https://media.giphy.com/media/5hmgcWYonGQC8CWCzC/giphy.gif" />
+  </div>
+</div>
+
+We want a way to get the current height of the scrollview to make a decision, as to whether we want to allow the user to scroll the screen. ScrollView has a property called **onContentSizeChange** that gives us just that. We'll calculate the height of the current display, and if it is greater than the scrollview context plus the size of the statusbar, we'll toggle the flag **scrollEnabled**.
+
+```js 
+scrollEnabled = contentHeight + statusBarHeight > SCREEN_HEIGHT
+```
+
+I'd also like to add some padding for when we scroll, to ensure that the **Register** button has some breathing room.
+
+
+```jsx title="src/screens/UserRegistrationScreen/index.js"
+import React from 'react';
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  Dimensions
+} from 'react-native';
+import { Formik } from 'formik';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Constants } from 'expo';
+
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import validate from '../../utils/FormValidations/registrationValidation';
+
+const logo = require('../../../assets/logo/logo.png');
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const PADDING_BOTTOM = 24;
+
+export default class UserRegistration extends React.Component {
+  state = {
+    scrollEnabled: false,
+  };
+  
+  _onContentSizeChange = (_, contentHeight) => {
+    const statusBarHeight = Constants.statusBarHeight;
+    const scrollEnabled = contentHeight + statusBarHeight > SCREEN_HEIGHT;
+    this.setState({
+      scrollEnabled
+    });
+  };
+  
+  render() {
+    let { scrollEnabled } = this.state;
+     
+    return (
+      <SafeAreaView style={styles.container}>
+        <KeyboardAwareScrollView
+          style={styles.scrollViewContainer}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: scrollEnabled ? PADDING_BOTTOM : 0,
+            alignItems: 'center'
+          }}
+          onContentSizeChange={this._onContentSizeChange}
+          scrollEnabled={scrollEnabled}
+         >
+          <Image source={logo} resizeMode="contain" style={styles.logo} />
+          <Formik
+            initialValues={{
+              name: '',
+              email: '',
+              password: '',
+              passwordConfirm: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              console.log(values);
+              showMessage({
+                message: 'Success!',
+                type: 'success'
+              });
+              resetForm({});
+            }}
+            validate={validate}
+          >
+            {({ handleSubmit, handleChange, errors, values, touched }) => (
+              <View style={styles.formWrapper}>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="NAME"
+                    onChangeText={handleChange('name')}
+                    value={values.email}
+                  />
+                  {errors.name && touched.name && (
+                    <Text style={styles.errorInput}>
+                      {errors.name.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="EMAIL"
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                  />
+                  {errors.email && touched.email && (
+                    <Text style={styles.errorInput}>
+                      {errors.email.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="PASSWORD"
+                    password
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && (
+                    <Text style={styles.errorInput}>
+                      {errors.password.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="CONFIRM PASSWORD"
+                    password
+                    onChangeText={handleChange('passwordConfirm')}
+                    value={values.passwordConfirm}
+                  />
+                  {errors.passwordConfirm && touched.passwordConfirm && (
+                    <Text style={styles.errorInput}>
+                      {errors.passwordConfirm.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <Button onClick={handleSubmit} text="Register" />
+              </View>
+            )}
+          </Formik>
+          <FlashMessage position="top" />
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%'
+  },
+  scrollViewContainer: { flex: 1, width: '100%' },
+  logo: {
+    width: 200
+  },
+  formWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
+  },
+  inputWrapper: {
+    marginBottom: 48,
+    width: 180
+  },
+  errorInput: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 4
+  }
+});
+```
+
+<div className="flex flex-row space-x-2">
+  <div style={{display: "flex", flexDirection: "column"}} className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone X</p>
+    <img src="https://media.giphy.com/media/5R1Wiz1GzKtGc8TI08/giphy.gif" />
+  </div>
+  <div style={{display: "flex", flexDirection: "column"}} className="text-center sm:w-1/2">
+    <p className="text-xs text-white-800">iPhone 5s</p>
+    <img src="https://media.giphy.com/media/oX74fhD8kacF54WvJi/giphy.gif" />
+  </div>
+</div>
+
+Let's finally move on to giving the user an indication that there's more content below. I've chosen to use a down arrow icon that will disappear when the user has scrolled close to the end.
+
+```jsx title="src/screens/UserRegistrationScreen/index.js"
+import React from 'react';
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  Dimensions
+} from 'react-native';
+import { Formik } from 'formik';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Constants } from 'expo';
+import { Ionicons } from '@expo/vector-icons';
+
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import validate from '../../utils/FormValidations/registrationValidation';
+
+const logo = require('../../../assets/logo/logo.png');
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const PADDING_BOTTOM = 24;
+
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - PADDING_BOTTOM
+  );
+};
+
+export default class UserRegistration extends React.Component {
+  state = {
+    scrollEnabled: false,
+    showMoreIndicator: true
+  };
+
+  _onContentSizeChange = (_, contentHeight) => {
+    const statusBarHeight = Constants.statusBarHeight;
+    const scrollEnabled = contentHeight + statusBarHeight > SCREEN_HEIGHT;
+    this.setState({
+      scrollEnabled
+    });
+  };
+
+  _onScroll = ({ nativeEvent }) => {
+    if (isCloseToBottom(nativeEvent)) {
+      this._disableMoreIndicator();
+      return;
+    }
+    this._enableMoreIndicator();
+  };
+
+  _disableMoreIndicator = () => {
+    this.setState({
+      showMoreIndicator: false
+    });
+  };
+
+  _enableMoreIndicator = () => {
+    this.setState({
+      showMoreIndicator: true
+    });
+  };
+
+  _scrollToEnd = () => {
+    if (this._scrollView) {
+      this._scrollView.scrollToEnd();
+    }
+  };
+
+  render() {
+    let { showMoreIndicator, scrollEnabled } = this.state;
+    if (!scrollEnabled) showMoreIndicator = false;
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <KeyboardAwareScrollView
+          style={styles.scrollViewContainer}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: scrollEnabled ? PADDING_BOTTOM : 0,
+            alignItems: 'center'
+          }}
+          onContentSizeChange={this._onContentSizeChange}
+          scrollEnabled={scrollEnabled}
+          innerRef={ref => {
+            this._scrollView = ref;
+          }}
+          onScroll={this._onScroll}
+        >
+          <Image source={logo} resizeMode="contain" style={styles.logo} />
+          <Formik
+            initialValues={{
+              name: '',
+              email: '',
+              password: '',
+              passwordConfirm: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              console.log(values);
+              showMessage({
+                message: 'Success!',
+                type: 'success'
+              });
+              resetForm({});
+            }}
+            validate={validate}
+          >
+            {({ handleSubmit, handleChange, errors, values, touched }) => (
+              <View style={styles.formWrapper}>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="NAME"
+                    onChangeText={handleChange('name')}
+                    value={values.email}
+                  />
+                  {errors.name && touched.name && (
+                    <Text style={styles.errorInput}>
+                      {errors.name.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="EMAIL"
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                  />
+                  {errors.email && touched.email && (
+                    <Text style={styles.errorInput}>
+                      {errors.email.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="PASSWORD"
+                    password
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && (
+                    <Text style={styles.errorInput}>
+                      {errors.password.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Input
+                    placeholder="CONFIRM PASSWORD"
+                    password
+                    onChangeText={handleChange('passwordConfirm')}
+                    value={values.passwordConfirm}
+                  />
+                  {errors.passwordConfirm && touched.passwordConfirm && (
+                    <Text style={styles.errorInput}>
+                      {errors.passwordConfirm.toUpperCase()}
+                    </Text>
+                  )}
+                </View>
+                <Button onClick={handleSubmit} text="Register" />
+              </View>
+            )}
+          </Formik>
+          <FlashMessage position="top" />
+        </KeyboardAwareScrollView>
+
+        {showMoreIndicator && (
+          <View style={styles.moreIndicator}>
+            <Ionicons
+              name="ios-arrow-dropdown-circle"
+              size={32}
+              color="black"
+              onPress={this._scrollToEnd}
+            />
+          </View>
+        )}
+      </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%'
+  },
+  scrollViewContainer: { flex: 1, width: '100%' },
+  logo: {
+    width: 200
+  },
+  formWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
+  },
+  inputWrapper: {
+    marginBottom: 48,
+    width: 180
+  },
+  errorInput: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 4
+  },
+
+  moreIndicator: { position: 'absolute', right: 16, bottom: 16 }
+});
+```
+
+<div style={{display: "flex", justifyContent: "center"}}>
+  <img src="https://media.giphy.com/media/wZshEZLkTsQyF4CBX6/giphy.gif" />
+</div>
+
+And that's a wrap for this 2 part series.
+
+
+<script async src="https://snack.expo.io/embed.js"></script>
