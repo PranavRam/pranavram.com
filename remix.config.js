@@ -36,10 +36,11 @@ module.exports = {
   // so we default back to the standard build output.
   server: process.env.NODE_ENV === "development" ? undefined : "./server.js",
   ignoredRouteFiles: ["**/.*"],
-  // appDirectory: "app",
-  assetsBuildDirectory: "netlify/functions/build",
-  // serverBuildPath: "api/index.js",
-  // publicPath: "/build/",
+  appDirectory: "app",
+  assetsBuildDirectory: "public/build",
+  serverBuildPath: "api/index.js",
+  serverBuildDirectory: "netlify/functions/build",
+  publicPath: "/build/",
   mdx: async (filename) => {
     const [rehypeHighlight, rehypeExternalLinks] = await Promise.all([
       import("rehype-highlight").then((mod) => mod.default),
