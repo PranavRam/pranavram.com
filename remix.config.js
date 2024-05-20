@@ -36,7 +36,7 @@ module.exports = {
   // so we default back to the standard build output.
   server: process.env.NODE_ENV === "development" ? undefined: "./server.js",
   ignoredRouteFiles: ["**/.*"],
-  // appDirectory: "app",
+  appDirectory: "app",
   browserBuildDirectory: "public/build",
   // serverBuildPath: "netlify/functions/build/index.js",
   serverBuildDirectory: "netlify/functions/build",
