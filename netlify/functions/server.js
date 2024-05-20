@@ -1,6 +1,5 @@
-const { createRequestHandler } = require("@remix-run/remix-adapter");
+const { createRequestHandler } = require("@remix-run/netlify");
 
-import * as build from "@remix-run/dev/server-build"
-console.log("Routes:", build.routes);
-
-export default createRequestHandler({ build: require("./build") });
+exports.handler = createRequestHandler({
+  build: require("./build")
+});
