@@ -1618,7 +1618,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@netlify/functions@^0.10.0 || ^0.11.0 || ^1.0.0":
+"@netlify/functions@^0.10.0 || ^0.11.0 || ^1.0.0", "@netlify/functions@^1.6.0":
   version "1.6.0"
   resolved "https://registry.npmjs.org/@netlify/functions/-/functions-1.6.0.tgz"
   integrity sha512-6G92AlcpFrQG72XU8YH8pg94eDnq7+Q0YJhb8x4qNpdGsvuzvrfHWBmqFGp/Yshmv4wex9lpsTRZOocdrA2erQ==
