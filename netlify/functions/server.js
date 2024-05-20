@@ -1,3 +1,3 @@
 const { createRequestHandler } = require("@remix-run/netlify");
 
-export default createRequestHandler({ build: require("../../api") });
+export default createRequestHandler({ build: require("./build") });
