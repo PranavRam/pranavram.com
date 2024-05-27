@@ -3,7 +3,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "yarn run build:css && remix build",
+    "build": "npx playwright install && yarn run build:css && remix build",
     "build:css": "tailwindcss -o ./app/tailwind.css",
     "dev": "concurrently \"yarn dev:css\" \"remix dev\"",
     "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
