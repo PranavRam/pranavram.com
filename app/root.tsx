@@ -14,6 +14,7 @@ import { Header } from "./components/Header";
 import { siteMetadata } from "./siteMetadata";
 import styles from "./tailwind.css";
 import { isDarkMode } from "./utils/darkMode";
+// import MDXComponentsProvider from "./components/MDXProvider";
 
 export const links: LinksFunction = () => {
   return [
@@ -73,7 +74,9 @@ export default function App() {
         className={`dark:bg-slate-900 overflow-y-scroll ${proseClasses} ${flexClasses} ${spacingClasses}`}
       >
         <Header />
-        <Outlet />
+        {/* <MDXComponentsProvider> */}
+          <Outlet />
+        {/* </MDXComponentsProvider> */}
         <Footer />
         <ScrollRestoration />
         <Scripts />

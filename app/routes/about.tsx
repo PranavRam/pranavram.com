@@ -31,7 +31,7 @@ export default function About() {
       <h2 className="text-center mt-8 lg:mt-0">{siteMetadata.author}</h2>
       <span className="text-slate-500">{siteMetadata.professionalTitle}</span>
       <p className="text-center text-pretty">{siteMetadata.aboutMe}</p>
-      <span>I can be reached at pranav dot ram 7 @ gmail.com</span>
+      <span className="text-center text-pretty">I can be reached at pranav dot ram 7 @ gmail.com</span>
     </div>
   );
 }

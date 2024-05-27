@@ -1,7 +1,8 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 
 const rehypePrettyCode = require('rehype-pretty-code');
-
+// const mdxMermaid = require('mdx-mermaid');
+// const {Mermaid} = require('mdx-mermaid/lib/Mermaid');
 /** @type {import('rehype-pretty-code').Options} */
 const options = {
   // Use one of Shiki's packaged themes
@@ -47,10 +48,17 @@ module.exports = {
   // // serverBuildPath: "netlify/functions/build/index.js",
   // serverBuildDirectory: "netlify/functions/server/build",
   // publicPath: "/build/",
+  serverDependenciesToBundle: [
+    "@mdx-js/react",
+    "mermaid",
+    "d3"
+  ],
   mdx: async (filename) => {
-    const [rehypeHighlight, rehypeExternalLinks] = await Promise.all([
+    // const mdxMermaid = await 
+    const [rehypeHighlight, rehypeExternalLinks, rehypeMermaid] = await Promise.all([
       import("rehype-highlight").then((mod) => mod.default),
       import("rehype-external-links").then((mod) => mod.default),
+      import("rehype-mermaid").then((mod) => mod.default)
     ]);
 
     return {
@@ -62,9 +70,22 @@ module.exports = {
       //       rel: ["noopener", "noreferrer"],
       //       target: "_blank",
       //     }),
-      // ],
-      rehypePlugins: [[rehypePrettyCode, options]],
-      remarkPlugins: [],
+      // ],s
+      rehypePlugins: [
+                    [rehypeMermaid, {
+                      // colorScheme: "light", 
+                    strategy: "img-png",
+                    // dark: false
+                  }],
+                    [rehypePrettyCode, options],
+                    
+                  ],
+      remarkPlugins: [
+        // mdxMermaid
+        // mdxMermaid.default
+        // [mdxMermaid.default, {output: 'svg'}]
+      ],
+      // components: {mermaid: Mermaid, Mermaid}
     };
   },
 };

@@ -6,7 +6,7 @@ import * as UIComponentsD3 from "../routes/posts/ui-components-with-d3js.mdx";
 import * as RNYupfrom from "../routes/posts/react-native-formik-yup.mdx";
 import * as RNResponsiveScrollview from "../routes/posts/react-native-responsive-scrollview.mdx";
 import * as RedHotChilliPeppersScraping from "../routes/posts/concert-tour-scrapper-with-cheerio-simplecrawler.mdx"
-
+import * as ClojureTreeToReactFlow from "../routes/posts/react-flow-clojurescript-tree-manipulation.mdx";
 // import * as GraphQLQueryModification from "../routes/posts/graphql-query-parser.mdx"
 
 import { formatDate } from "./date";
@@ -22,10 +22,7 @@ export interface Frontmatter {
 }
 
 export const POSTS = [
-  // ExamplePost1, 
-  // ExamplePost2, 
-  // ExamplePost3, 
-  // ExamplePost4, 
+  ClojureTreeToReactFlow,
   UIComponentsD3,
   RNYupfrom,
   RNResponsiveScrollview,

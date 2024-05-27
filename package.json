@@ -31,6 +31,7 @@
     "react-dom": "^18.2.0",
     "rehype-external-links": "^2.0.1",
     "rehype-highlight": "^5.0.2",
+    "rehype-mermaid": "^2.1.0",
     "rehype-pretty-code": "^0.9.4",
     "shiki": "^0.14.1"
   },
