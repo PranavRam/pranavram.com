@@ -148,30 +148,7 @@ The given Clojure code uses the Meander library to perform a pattern-based searc
    ```
    Finally, `?child` represents the result of recursively applying the pattern to the nested structure. The `m/search` macro will return all instances of the transformation defined in the previous step for each match found in the input structure.
 
-```mermaid
-graph TD;
-    A["Level 1"] --> B["Level 1.1"]
-    A --> C["Level 1.2"]
-    B --> D["Level 1.1.1"]
-    C --> E["Level 1.2.1"]
-
-    subgraph Flow Through shape-edges Function
-        E1[Extract :id and :next]
-        F1[Process child nodes of :next]
-        F2[Create new map with combined ids]
-    end
-
-    style Flow Through shape-edges Function fill:#f9f,stroke:#333,stroke-width:2px;
-
-    A -->|Input to shape-edges| E1
-    E1 -->|Extract root :id and :next| F1
-    F1 -->|Process children| F2
-
-    F2 -->|Output| G{{"id: Level 1-|-Level 1.1\nsource: Level 1\ntarget: Level 1.1"}}
-    F2 -->|Output| H{{"id: Level 1.1-|-Level 1.1.1\nsource: Level 1.1\ntarget: Level 1.1.1"}}
-    F2 -->|Output| I{{"id: Level 1-|-Level 1.2\nsource: Level 1\ntarget: Level 1.2"}}
-    F2 -->|Output| J{{"id: Level 1.2-|-Level 1.2.1\nsource: Level 1.2\ntarget: Level 1.2.1"}}
-```
+<a href="https://mermaid.ink/img/pako:eNqNU8tu2zAQ_JUFc7UMmD6VAQo0tpWkCNACzc3KgRFXFhGJFPiIHVj-91IP24qrNOGJ3JmdHS6Xe5JqgYSRjeFVDo_L60RBWD_WCXnAVyxglpAniKLvcHMOTZtgT2yxxQCjJ-ymxZbDvEHmokVXw8we7XDrnztTcaG38Jgb7Tc52JxXGKHYoIXYq9RJ3fObtZqtVztneOqASQFcCWAKd-7pTIln699Gp2gtpLksBKjQAAs6-5dJ1wuD3CEo3ELJK9hKl0Oqy2epUIAUtmejEifX7q3Azy1DJouCXWXfsol1Rr8gu5rP5_0-2krhckar3fVRtm1zfa8q78DpoWQdLt1xVrOWdGyA0fqiC3W4fEeNO-q7RhhUgUCPFWPaUn55F2rWcLvfJ0QKBv1jRXV0HoZEWe1Niic0RBw3G3SnSPO0h8Oo9N2F9PSd-Jj8dLTAf0rcf-yefsk9_VD656V7OhQfdU_HCnTuyYSUaEouRfiT-6ZgQlyOJSaEha3g5iUhiWp43Dv9502lhDnjcULaYSMs44UNJ1-JMLlLycMfKvvo4S-ZeDw6?type=png)](https://mermaid.live/edit#pako:eNqNU8tu2zAQ_JUFc7UMmD6VAQo0tpWkCNACzc3KgRFXFhGJFPiIHVj-91IP24qrNOGJ3JmdHS6Xe5JqgYSRjeFVDo_L60RBWD_WCXnAVyxglpAniKLvcHMOTZtgT2yxxQCjJ-ymxZbDvEHmokVXw8we7XDrnztTcaG38Jgb7Tc52JxXGKHYoIXYq9RJ3fObtZqtVztneOqASQFcCWAKd-7pTIln699Gp2gtpLksBKjQAAs6-5dJ1wuD3CEo3ELJK9hKl0Oqy2epUIAUtmejEifX7q3Azy1DJouCXWXfsol1Rr8gu5rP5_0-2krhckar3fVRtm1zfa8q78DpoWQdLt1xVrOWdGyA0fqiC3W4fEeNO-q7RhhUgUCPFWPaUn55F2rWcLvfJ0QKBv1jRXV0HoZEWe1Niic0RBw3G3SnSPO0h8Oo9N2F9PSd-Jj8dLTAf0rcf-yefsk9_VD656V7OhQfdU_HCnTuyYSUaEouRfiT-6ZgQlyOJSaEha3g5iUhiWp43Dv9502lhDnjcULaYSMs44UNJ1-JMLlLycMfKvvo4S-ZeDw6" target="_blank" rel="noopener"><img src="https://mermaid.ink/svg/pako:eNqNU8tu2zAQ_JUFc7UMmD6VAQo0tpWkCNACzc3KgRFXFhGJFPiIHVj-91IP24qrNOGJ3JmdHS6Xe5JqgYSRjeFVDo_L60RBWD_WCXnAVyxglpAniKLvcHMOTZtgT2yxxQCjJ-ymxZbDvEHmokVXw8we7XDrnztTcaG38Jgb7Tc52JxXGKHYoIXYq9RJ3fObtZqtVztneOqASQFcCWAKd-7pTIln699Gp2gtpLksBKjQAAs6-5dJ1wuD3CEo3ELJK9hKl0Oqy2epUIAUtmejEifX7q3Azy1DJouCXWXfsol1Rr8gu5rP5_0-2krhckar3fVRtm1zfa8q78DpoWQdLt1xVrOWdGyA0fqiC3W4fEeNO-q7RhhUgUCPFWPaUn55F2rWcLvfJ0QKBv1jRXV0HoZEWe1Niic0RBw3G3SnSPO0h8Oo9N2F9PSd-Jj8dLTAf0rcf-yefsk9_VD656V7OhQfdU_HCnTuyYSUaEouRfiT-6ZgQlyOJSaEha3g5iUhiWp43Dv9502lhDnjcULaYSMs44UNJ1-JMLlLycMfKvvo4S-ZeDw6?type=png)](https://mermaid.live/edit#pako:eNqNU8tu2zAQ_JUFc7UMmD6VAQo0tpWkCNACzc3KgRFXFhGJFPiIHVj-91IP24qrNOGJ3JmdHS6Xe5JqgYSRjeFVDo_L60RBWD_WCXnAVyxglpAniKLvcHMOTZtgT2yxxQCjJ-ymxZbDvEHmokVXw8we7XDrnztTcaG38Jgb7Tc52JxXGKHYoIXYq9RJ3fObtZqtVztneOqASQFcCWAKd-7pTIln699Gp2gtpLksBKjQAAs6-5dJ1wuD3CEo3ELJK9hKl0Oqy2epUIAUtmejEifX7q3Azy1DJouCXWXfsol1Rr8gu5rP5_0-2krhckar3fVRtm1zfa8q78DpoWQdLt1xVrOWdGyA0fqiC3W4fEeNO-q7RhhUgUCPFWPaUn55F2rWcLvfJ0QKBv1jRXV0HoZEWe1Niic0RBw3G3SnSPO0h8Oo9N2F9PSd-Jj8dLTAf0rcf-yefsk9_VD656V7OhQfdU_HCnTuyYSUaEouRfiT-6ZgQlyOJSaEha3g5iUhiWp43Dv9502lhDnjcULaYSMs44UNJ1-JMLlLycMfKvvo4S-ZeDw6" /></a>
 
 ### Summary
 The provided Meander search pattern is designed to recursively traverse a nested data structure (where nesting is indicated by a specific `link-type` key), extract certain pieces of data (`:id` values), and transform them into a new format. The transformation involves combining the `:id` of the current level with the `:id` of a nested structure and creating a new map with specific keys `:id`, `:source`, and `:target`.

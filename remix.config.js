@@ -55,10 +55,10 @@ module.exports = {
   ],
   mdx: async (filename) => {
     // const mdxMermaid = await 
-    const [rehypeHighlight, rehypeExternalLinks, rehypeMermaid] = await Promise.all([
+    const [rehypeHighlight, rehypeExternalLinks] = await Promise.all([
       import("rehype-highlight").then((mod) => mod.default),
       import("rehype-external-links").then((mod) => mod.default),
-      import("rehype-mermaid").then((mod) => mod.default)
+      // import("rehype-mermaid").then((mod) => mod.default)
     ]);
 
     return {
@@ -72,11 +72,6 @@ module.exports = {
       //     }),
       // ],s
       rehypePlugins: [
-                    [rehypeMermaid, {
-                      // colorScheme: "light", 
-                    strategy: "img-png",
-                    // dark: false
-                  }],
                     [rehypePrettyCode, options],
                     
                   ],
